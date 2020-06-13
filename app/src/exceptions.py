@@ -6,3 +6,8 @@ class BasketFileNotFoundException(Exception):
 class ProductNotFoundException(Exception):
     """User defined exception. Product not found"""
     pass
+
+
+class DiscountNotFoundException(Exception):
+    """User defined exception. Discount not found"""
+    pass
