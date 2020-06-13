@@ -9,6 +9,7 @@ from src.model.discount import BulkDiscountStrategy
 
 
 class DiscountReaderRepository(ABC):
+    """ DiscountReaderRepository interface """
 
     @abstractmethod
     def get(
@@ -26,6 +27,7 @@ class DictionaryDiscountReaderRepository(DiscountReaderRepository):
             discount_code: str,
             database: str = None,
     ) -> Discount:
+        """ Loads Discount and discount strategy objects from dictionar """
 
         # Read discount information from DISCOUNTS dictionary
         # "bulk25": {"description": "Bulk discount 25%", "status": "active", "percent": 25, "limit_items": 3}

@@ -9,6 +9,7 @@ from src.exceptions import BasketFileNotFoundException
 
 
 class BasketReaderRepository(ABC):
+    """ BasketReaderRepository interface """
 
     @abstractmethod
     def get(

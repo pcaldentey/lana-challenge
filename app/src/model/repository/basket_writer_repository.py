@@ -11,6 +11,7 @@ from src.exceptions import BasketFileNotFoundException
 
 
 class BasketWriterRepository(ABC):
+    """ BasketWriterRepository interface """
 
     @abstractmethod
     def save(

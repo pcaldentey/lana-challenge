@@ -1,3 +1,10 @@
+"""
+    Discount class is defined using strategy pattern.
+
+    Discount object receives an strategy class in the moment is instantiated.
+    We have two strtegy classes TwoPerOneDiscountStrategy and BulkDiscountStrategy
+    both implement DiscountStrategy interface
+"""
 from abc import ABC
 from abc import abstractmethod
 

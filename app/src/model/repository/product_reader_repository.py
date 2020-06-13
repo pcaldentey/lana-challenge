@@ -7,6 +7,7 @@ from src.model.product import Product
 
 
 class ProductReaderRepository(ABC):
+    """ ProductReaderRepository interface """
 
     @abstractmethod
     def get(
@@ -26,6 +27,7 @@ class DictionaryProductReaderRepository(ProductReaderRepository):
     ) -> Product:
 
         # Read product from CATALOG dictionary
+        # and product object hydrated and returned
         # 'PEN': {'description': 'Lana Pen', 'price': 500, 'currency': '€', 'discounts': None},
         if product_code in CATALOG:
             product = Product()
