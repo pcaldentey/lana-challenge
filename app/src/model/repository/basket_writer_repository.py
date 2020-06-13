@@ -1,4 +1,5 @@
 import pickle
+import os
 import time
 
 from abc import ABC
@@ -6,6 +7,7 @@ from abc import abstractmethod
 from pathlib import Path
 
 from src.model.basket import Basket
+from src.exceptions import BasketFileNotFoundException
 
 
 class BasketWriterRepository(ABC):
@@ -16,6 +18,14 @@ class BasketWriterRepository(ABC):
             basket: Basket,
             database: str,
     ) -> Basket:
+        raise NotImplementedError()
+
+    @abstractmethod
+    def delete(
+            self,
+            id: int,
+            database: str,
+    ):
         raise NotImplementedError()
 
 
@@ -45,3 +55,16 @@ class FileBasketWriterRepository(BasketWriterRepository):
                 basket.id = id
                 basket.products = None
                 return basket
+
+    def delete(
+            self,
+            id: int,
+            database: str,
+    ):
+
+        # We just have to remove the file
+        basket_file = Path(database + str(id))
+        if basket_file.is_file():
+            os.remove(basket_file)
+        else:
+            raise BasketFileNotFoundException("Basket file {} not found".format(id))
