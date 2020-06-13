@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 CATALOG = {
-        'PEN': {'description': 'Lana Pen', 'price': 500, 'currency': '€', 'discounts': ['2per1']},
-        'TSHIRT': {'description': 'Lana T-Shirt', 'price': 2000, 'currency': '€', 'discounts': ['bulk25']},
+        'PEN': {'description': 'Lana Pen', 'price': 500, 'currency': '€', 'discounts': '2per1'},
+        'TSHIRT': {'description': 'Lana T-Shirt', 'price': 2000, 'currency': '€', 'discounts': 'bulk25'},
         'MUG': {'description': 'Lana Coffee Mug', 'price': 750, 'currency': '€', 'discounts': None}
 }
 
