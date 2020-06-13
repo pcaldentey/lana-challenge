@@ -37,13 +37,14 @@ class FileBasketWriterRepository(BasketWriterRepository):
             database: str,
     ) -> Basket:
 
-        # Previously existing basket
+        # Previously existing basket so we save it
         if basket and basket.id:
-            my_file = Path("/path/to/file")
-            if my_file.is_file():
-                # file exists
-                pass
-            pass
+            file_path = Path(database + str(basket.id))
+            if file_path.is_file():
+                with open(file_path, 'wb') as basket_file:
+                    pickle.dump(basket.products, basket_file)
+                    return basket
+
         # Basket creation
         else:
             # basket id will be actual time in milliseconds
