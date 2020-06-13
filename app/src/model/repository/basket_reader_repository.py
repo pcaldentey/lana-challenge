@@ -14,22 +14,22 @@ class BasketReaderRepository(ABC):
     def get(
             self,
             basket_id: int,
-            database: str,
     ) -> Basket:
         raise NotImplementedError()
 
 
 class FileBasketReaderRepository(BasketReaderRepository):
+    def __init__(self, database):
+        self.__database = database
 
     def get(
             self,
             basket_id: int,
-            database: str,
     ) -> Basket:
         """
             Basket obj is unserialized and returned
         """
-        file_path = Path(database + str(basket_id))
+        file_path = Path(self.__database + str(basket_id))
         if file_path.is_file():
             with open(file_path, 'rb') as basket_file:
                 content = pickle.load(basket_file)

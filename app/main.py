@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi import Response, status
 from pydantic import BaseModel, Field
 
+from src.config import BASKET_DB_PATH
 from src.model.repository.basket_reader_repository import FileBasketReaderRepository
 from src.model.repository.basket_writer_repository import FileBasketWriterRepository
 from src.model.repository.product_reader_repository import DictionaryProductReaderRepository
@@ -26,21 +27,16 @@ class ProductDTOApi(BaseModel):
 
 @app.post("/basket", status_code=200)
 def create_basket(response: Response):
-    writer = FileBasketWriterRepository()
+    writer = FileBasketWriterRepository(BASKET_DB_PATH)
     service = CreateBasketService(writer)
     output = service.execute()
     response.status_code = status.HTTP_201_CREATED
     return output
 
 
-@app.get("/basket/{basket_id}")
-def get_basket(basket_id: int):
-    return {"item_id": basket_id}
-
-
 @app.delete("/basket/{basket_id}")
 def delete_basket(basket_id: int):
-    writer = FileBasketWriterRepository()
+    writer = FileBasketWriterRepository(BASKET_DB_PATH)
     service = DeleteBasketService(writer)
     try:
         output = service.execute(basket_id)
@@ -51,8 +47,8 @@ def delete_basket(basket_id: int):
 
 @app.post("/basket/{basket_id}/product")
 def update_basket(basket_id: int, product: ProductDTOApi):
-    basket_reader = FileBasketReaderRepository()
-    basket_writer = FileBasketWriterRepository()
+    basket_reader = FileBasketReaderRepository(BASKET_DB_PATH)
+    basket_writer = FileBasketWriterRepository(BASKET_DB_PATH)
     product_reader = DictionaryProductReaderRepository()
     try:
         service = UpdateBasketService(basket_writer, basket_reader, product_reader)
@@ -63,3 +59,7 @@ def update_basket(basket_id: int, product: ProductDTOApi):
     except ProductNotFoundException:
         raise HTTPException(status_code=404, detail="Product not found")
 
+
+@app.get("/basket/{basket_id}")
+def get_basket_checkout(basket_id: int):
+    return {"item_id": basket_id}

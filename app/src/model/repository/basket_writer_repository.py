@@ -16,7 +16,6 @@ class BasketWriterRepository(ABC):
     def save(
             self,
             basket: Basket,
-            database: str,
     ) -> Basket:
         raise NotImplementedError()
 
@@ -24,17 +23,17 @@ class BasketWriterRepository(ABC):
     def delete(
             self,
             id: int,
-            database: str,
     ):
         raise NotImplementedError()
 
 
 class FileBasketWriterRepository(BasketWriterRepository):
+    def __init__(self, database):
+        self.__database = database
 
     def save(
             self,
             basket: Basket,
-            database: str,
     ) -> Basket:
         """
             Basket obj is serialized and dumped to a file whose name is equal to basket id
@@ -42,7 +41,7 @@ class FileBasketWriterRepository(BasketWriterRepository):
 
         # Previously existing basket so we save it
         if basket and basket.id:
-            file_path = Path(database + str(basket.id))
+            file_path = Path(self.__database + str(basket.id))
             if file_path.is_file():
                 with open(file_path, 'wb') as basket_file:
                     pickle.dump(basket.products, basket_file)
@@ -53,7 +52,7 @@ class FileBasketWriterRepository(BasketWriterRepository):
             # basket id will be actual time in milliseconds
             id = int(round(time.time() * 1000))
             # empty basket saved
-            with open(database + str(id), 'wb') as basket_file:
+            with open(self.__database + str(id), 'wb') as basket_file:
                 pickle.dump({}, basket_file)
                 basket = Basket()
                 basket.id = id
@@ -63,11 +62,9 @@ class FileBasketWriterRepository(BasketWriterRepository):
     def delete(
             self,
             id: int,
-            database: str,
     ):
-
         # We just have to remove the file
-        basket_file = Path(database + str(id))
+        basket_file = Path(self.__database + str(id))
         if basket_file.is_file():
             os.remove(basket_file)
         else:
