@@ -2,7 +2,7 @@ from src.model.repository.basket_reader_repository import BasketReaderRepository
 from src.model.repository.product_reader_repository import ProductReaderRepository
 
 
-class CheckoutService:
+class CheckoutBasketService:
     def __init__(self,
                  basket_reader_repository: BasketReaderRepository,
                  product_reader_repository: ProductReaderRepository
