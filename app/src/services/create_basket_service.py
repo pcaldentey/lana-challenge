@@ -1,4 +1,3 @@
-
 from src.model.basket import Basket
 from src.model.repository.basket_writer_repository import BasketWriterRepository
 from src.config import BASKET_DB_PATH
