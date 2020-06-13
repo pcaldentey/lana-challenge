@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from pydantic import BaseModel
-from product import Product
 from typing import Dict
+from typing import Optional
 from typing import Tuple
+
+from src.model.product import Product
 
 
 class Basket(BaseModel):
@@ -15,5 +17,5 @@ class Basket(BaseModel):
                 "prod_code2": (ProdObj2, 5)
             }
     """
-    id: int
-    products: Dict[str, Tuple(Product, int)]
+    id: Optional[int] = None
+    products: Optional[Dict[str, Tuple[Product, int]]] = None
