@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class Product(BaseModel):
     """ Product Model. """
-    id: str
-    description: str
-    price_per_unit: int
-    discount_to_apply: str
+    id: str = None
+    description: str = None
+    price_per_unit: int = None
+    discount_to_apply: str = None
