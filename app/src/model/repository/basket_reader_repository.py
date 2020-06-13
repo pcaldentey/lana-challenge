@@ -26,6 +26,9 @@ class FileBasketReaderRepository(BasketReaderRepository):
             basket_id: int,
             database: str,
     ) -> Basket:
+        """
+            Basket obj is unserialized and returned
+        """
         file_path = Path(database + str(basket_id))
         if file_path.is_file():
             with open(file_path, 'rb') as basket_file:

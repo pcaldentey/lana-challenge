@@ -36,6 +36,9 @@ class FileBasketWriterRepository(BasketWriterRepository):
             basket: Basket,
             database: str,
     ) -> Basket:
+        """
+            Basket obj is serialized and dumped to a file whose name is equal to basket id
+        """
 
         # Previously existing basket so we save it
         if basket and basket.id:
