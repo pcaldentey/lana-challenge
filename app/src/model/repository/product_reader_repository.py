@@ -31,7 +31,7 @@ class DictionaryProductReaderRepository(ProductReaderRepository):
             product = Product()
             product.id = product_code
             product.description = CATALOG[product_code]['description']
-            product.price_per_unit = CATALOG[product_code]['description']
+            product.price_per_unit = CATALOG[product_code]['price']
             product.discount_to_apply = CATALOG[product_code]['discounts']
             return product
 
