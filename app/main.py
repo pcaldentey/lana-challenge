@@ -6,6 +6,7 @@ from src.config import BASKET_DB_PATH
 from src.model.repository.basket_reader_repository import FileBasketReaderRepository
 from src.model.repository.basket_writer_repository import FileBasketWriterRepository
 from src.model.repository.product_reader_repository import DictionaryProductReaderRepository
+from src.model.repository.discount_reader_repository import DictionaryDiscountReaderRepository
 from src.exceptions import BasketFileNotFoundException
 from src.exceptions import ProductNotFoundException
 from src.services.checkout_basket_service import CheckoutBasketService
@@ -64,10 +65,10 @@ def update_basket(basket_id: int, product: ProductDTOApi):
 @app.get("/basket/{basket_id}")
 def get_basket_checkout(basket_id: int):
     basket_reader = FileBasketReaderRepository(BASKET_DB_PATH)
-    product_reader = DictionaryProductReaderRepository()
+    discount_reader = DictionaryDiscountReaderRepository()
     try:
-        service = CheckoutBasketService(basket_reader, product_reader)
-        output = service.execute()
+        service = CheckoutBasketService(basket_reader, discount_reader)
+        output = service.execute(basket_id)
         return output
     except BasketFileNotFoundException:
         raise HTTPException(status_code=404, detail="Basket not found")
