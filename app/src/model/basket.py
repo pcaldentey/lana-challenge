@@ -19,3 +19,12 @@ class Basket(BaseModel):
     """
     id: Optional[int] = None
     products: Optional[Dict[str, Tuple[Product, int]]] = None
+
+    def add_product(self, product: Product, amount: int = 1):
+        # Sum amount items to product bucket
+        if product.id in self.products:
+            self.products[product.id] = (product, self.products[product.id][1] + amount)
+
+        # Create product bucket and add amount items
+        else:
+            self.products[product.id] = (product, amount)
