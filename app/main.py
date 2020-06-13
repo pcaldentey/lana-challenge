@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi import Response, status
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
+from src.model.repository.basket_reader_repository import FileBasketReaderRepository
 from src.model.repository.basket_writer_repository import FileBasketWriterRepository
 from src.model.repository.product_reader_repository import DictionaryProductReaderRepository
 from src.exceptions import BasketFileNotFoundException
@@ -20,7 +21,7 @@ class ProductDTOApi(BaseModel):
         Acts as part of endpoint definition
     """
     product_code: str
-    amount: int = 1
+    amount: int = Field(1, gt=0, description="Amount must be greater than zero")
 
 
 @app.post("/basket", status_code=200)
@@ -48,17 +49,17 @@ def delete_basket(basket_id: int):
         raise HTTPException(status_code=404, detail="Basket not found")
 
 
-@app.patch("/basket/{basket_id}")
+@app.post("/basket/{basket_id}/product")
 def update_basket(basket_id: int, product: ProductDTOApi):
-    writer = FileBasketWriterRepository()
-    reader = DictionaryProductReaderRepository()
-    print(product)
+    basket_reader = FileBasketReaderRepository()
+    basket_writer = FileBasketWriterRepository()
+    product_reader = DictionaryProductReaderRepository()
     try:
-        service = UpdateBasketService(writer, reader)
-        service.execute(basket_id, product.product_code, product.amount)
+        service = UpdateBasketService(basket_writer, basket_reader, product_reader)
+        output = service.execute(basket_id, product.product_code, product.amount)
+        return output
     except BasketFileNotFoundException:
         raise HTTPException(status_code=404, detail="Basket not found")
     except ProductNotFoundException:
         raise HTTPException(status_code=404, detail="Product not found")
 
-    return {"added item_id": basket_id}
