@@ -8,11 +8,12 @@ from src.services.delete_basket_service import DeleteBasketService
 app = FastAPI()
 
 
-@app.post("/basket")
-def create_basket():
+@app.post("/basket", status_code=200)
+def create_basket(response: Response):
     writer = FileBasketWriterRepository()
     service = CreateBasketService(writer)
     output = service.execute()
+    response.status_code = status.HTTP_201_CREATED
     return output
 
 
@@ -30,8 +31,6 @@ def delete_basket(basket_id: int):
         return output
     except BasketFileNotFoundException:
         raise HTTPException(status_code=404, detail="Basket not found")
-
-    return {"item_id": basket_id}
 
 
 @app.post("/basket/{basket_id}")
