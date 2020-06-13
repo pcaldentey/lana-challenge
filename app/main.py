@@ -8,7 +8,7 @@ from src.model.repository.basket_writer_repository import FileBasketWriterReposi
 from src.model.repository.product_reader_repository import DictionaryProductReaderRepository
 from src.exceptions import BasketFileNotFoundException
 from src.exceptions import ProductNotFoundException
-from src.services.checkout_service import CheckoutService
+from src.services.checkout_basket_service import CheckoutBasketService
 from src.services.create_basket_service import CreateBasketService
 from src.services.delete_basket_service import DeleteBasketService
 from src.services.update_basket_service import UpdateBasketService
@@ -66,7 +66,7 @@ def get_basket_checkout(basket_id: int):
     basket_reader = FileBasketReaderRepository(BASKET_DB_PATH)
     product_reader = DictionaryProductReaderRepository()
     try:
-        service = CheckoutService(basket_reader, product_reader)
+        service = CheckoutBasketService(basket_reader, product_reader)
         output = service.execute()
         return output
     except BasketFileNotFoundException:
