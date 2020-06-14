@@ -14,13 +14,15 @@ class DiscountStrategy(ABC):
 
     @abstractmethod
     def apply_discount(self, items_number, price_per_item):
-        pass
+        raise NotImplementedError()
 
 
 class Discount:
     """ Discount placeholder class """
 
     def __init__(self, discount_strategy: DiscountStrategy):
+        if not isinstance(discount_strategy, DiscountStrategy):
+            raise TypeError("Must be a DiscountStrategy instance")
         self._discount_strategy = discount_strategy
 
     def apply_discount(self, product, items):
@@ -38,7 +40,7 @@ class TwoPerOneDiscountStrategy(DiscountStrategy):
     def apply_discount(self, items, price_per_item):
         if items != 1:
             # How many groups of two element (items // 2) plus rest
-            # Thats the number of 'items' times the price_per_item we have to charge
+            # Thats the number of 'items' times the price_per_item we have to charge for
             times = (items // 2) + (items % 2)
             result = price_per_item * times
         else:
@@ -54,11 +56,11 @@ class BulkDiscountStrategy(DiscountStrategy):
         self._percent_discount = percent_discount / float(100)
         self._limit = limit
 
-    def apply_discount(self, items_number, price_per_item):
-        if items_number >= self._limit:
+    def apply_discount(self, items, price_per_item):
+        if items >= self._limit:
             discounted_price = (1 - self._percent_discount) * price_per_item
-            result = discounted_price * items_number
+            result = discounted_price * items
         else:
-            result = price_per_item * items_number
+            result = price_per_item * items
 
         return result

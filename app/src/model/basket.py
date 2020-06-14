@@ -18,9 +18,12 @@ class Basket(BaseModel):
             }
     """
     id: Optional[int] = None
-    products: Optional[Dict[str, Tuple[Product, int]]] = None
+    products: Optional[Dict[str, Tuple[Product, int]]] = {}
 
     def add_product(self, product: Product, amount: int = 1):
+        if not isinstance(product, Product):
+            raise TypeError("Must be Product instance")
+
         # Sum amount items to product bucket
         if product.id in self.products:
             self.products[product.id] = (product, self.products[product.id][1] + amount)

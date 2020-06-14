@@ -57,7 +57,6 @@ class FileBasketWriterRepository(BasketWriterRepository):
                 pickle.dump({}, basket_file)
                 basket = Basket()
                 basket.id = id
-                basket.products = None
                 return basket
 
     def delete(

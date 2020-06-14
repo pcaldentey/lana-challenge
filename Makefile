@@ -1,4 +1,4 @@
-build-docker:
+build:
 	docker build --no-cache -t lanaserverimg .
 
 run:
@@ -10,3 +10,6 @@ stop:
 
 rundev:
 	docker run -d --name lanaserver -p 80:80 -v /home/pcaldentey/dev/workSearch/lana-challenge/app:/app -v /home/pcaldentey/dev/workSearch/lana-challenge/client:/client lanaserverimg  /start-reload.sh
+
+tests:
+	docker exec -i lanaserver sh -c "python -m unittest discover"
