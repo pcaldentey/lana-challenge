@@ -27,6 +27,11 @@ class ProductDTOApi(BaseModel):
     amount: int = Field(1, gt=0, description="Amount must be greater than zero")
 
 
+@app.get("/")
+def root():
+    return {"msg": "You have available all swagger docs in http://0.0.0.0/docs"}
+
+
 @app.post("/basket", status_code=200)
 def create_basket(response: Response):
     writer = FileBasketWriterRepository(BASKET_DB_PATH)
