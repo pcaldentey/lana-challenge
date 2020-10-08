@@ -3,7 +3,7 @@
 [Problem description](https://gist.github.com/samlown/17abc235580fb291dd153b9c45e441d0)
 
 Pablo Caldentey
-pablo@caldentey.org
+
 
 This code is done in python 3.6
 
